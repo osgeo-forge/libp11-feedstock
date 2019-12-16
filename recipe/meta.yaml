@@ -1,0 +1,47 @@
+{% set version = "0.4.10" %}
+
+package:
+  name: libp11
+  version: {{ version }}
+
+source:
+  url: https://github.com/OpenSC/libp11/releases/download/libp11-{{ version }}/libp11-{{ version }}.tar.gz
+  sha256: 639ea43c3341e267214b712e1e5e12397fd2d350899e673dd1220f3c6b8e3db4
+  fn: libp11-{{ version }}.tar.gz
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - automake
+    - autoconf
+    - libtool
+    - make
+    - zlib
+  host:
+    - pkg-config
+    - openssl
+  run:
+    - openssl
+
+test:
+  commands:
+    - test -f ${PREFIX}/lib/engines-1.1/pkcs11.dylib  # [not win]
+    - test -f ${PREFIX}/lib/libp11.dylib  # [not win]
+
+about:
+  home: https://github.com/OpenSC/
+  license: LGPL-2.1
+  license_family: LGPL
+  license_file: COPYING
+  summary: PKCS#11 wrapper library
+  description: |
+      libp11 provides a higher-level (compared to the PKCS#11 library) interface to access PKCS#11 objects. It is designed to integrate with applications that use OpenSSL.
+  doc_url: https://github.com/OpenSC/libp11/wiki
+  dev_url: https://github.com/OpenSC/libp11
+
+extra:
+  recipe-maintainers:
+    - dakcarto
